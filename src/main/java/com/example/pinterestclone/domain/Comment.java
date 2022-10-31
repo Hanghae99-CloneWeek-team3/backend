@@ -1,20 +1,22 @@
 package com.example.pinterestclone.domain;
 
 //import com.example.pinterestclone.controller.request.CommentRequestDto;
+import com.example.pinterestclone.controller.request.CommentRequestDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -33,34 +35,59 @@ public class Comment extends Timestamped {
 
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name="post_id", nullable = false)
+    @JoinColumn(name="post_id")
     private Post post;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment", cascade = CascadeType.ALL)
     private List<Likes> likes;
 
-    @JoinColumn(name = "parent_id")
+    @Column
+    private boolean readHeart;
+
+    private boolean isDeleted;
+
+    @Column
+    private Long rootId;
+
+    @Column
+    private String rootName;
+
+    @Column
+    private String parentName;
+
+
+    /*@JoinColumn(name = "parent_id")
     @ManyToOne(fetch = FetchType.LAZY)
     //OnDelete는 JPA에서는 단일한 DELETE 쿼리만 전송하여 참조하는 레코드들을 연쇄적으로 제거해줌
     //CascadeTypa.REMOVE 방식은 JPA에서 외래 키를 통해 참조하는 레코드들을 제거하기 위해 그 개수만큼 DELETE 쿼리 전송해야함
-    // 참고: https://kukekyakya.tistory.com/m/546
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Comment parent;
 
     @Builder.Default
     // 각 댓글의 하위 댓글을 참조 가능하도록 연관관계 맺음
     @OneToMany(mappedBy = "parent")
-    private List<Comment> children = new ArrayList<>();
-
-    private boolean hasChildren() {
-        return getChildren().size() != 0;
+    private List<Comment> childList = new ArrayList<>();
+*/
+    public Comment(CommentRequestDto requestDto, Post post) {
+        this.content = requestDto.getContents();
+        this.rootId = requestDto.getRootId();
+        this.rootName = requestDto.getRootName();
+        this.post = post;
     }
 
-    public boolean validateMember(Users member) {
-        return !this.users.equals(member);
+
+    //== 수정 ==//
+    public void update(String content) {
+        this.content = content;
+    }
+    //== 삭제 ==//
+    public void delete() {
+        this.isDeleted = true;
     }
 
-//    public void update(CommentRequestDto commentRequestDto) {
-//        this.content = commentRequestDto.getContent();
-//    }
+    public boolean validateMember(Users users) {
+        return !this.users.equals(users);
+    }
+
+
 }

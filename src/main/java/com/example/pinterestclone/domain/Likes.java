@@ -21,7 +21,12 @@ public class Likes {
     @ManyToOne(fetch = FetchType.LAZY)
     private Users users;
 
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "comment_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
-    private Post post;
+    private Comment comment;
+
+    public Likes(Comment comment, Users users){
+        this.comment = comment;
+        this.users = users;
+    }
 }
