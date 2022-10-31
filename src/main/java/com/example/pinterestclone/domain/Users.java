@@ -27,14 +27,14 @@ public class Users extends Timestamped{
 
     // 일반 로그인 경우 이메일에서 앞에 잘라서
     @Column(nullable = false)
-    private String userId;
+    private String userId; //userName
 
     // 랜덤 값으로 만들 예정
     @Column(nullable = false)
     private String uniqueName;
 
     @Column(nullable = false)
-    private String email;
+    private String email; // userId
 
     @Column(nullable = false)
     @JsonIgnore

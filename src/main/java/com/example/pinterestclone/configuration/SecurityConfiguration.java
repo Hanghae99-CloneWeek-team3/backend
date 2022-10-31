@@ -66,6 +66,10 @@ public class SecurityConfiguration {
                 .antMatchers("/api/user/signup").permitAll()
                 .antMatchers("/api/user/signin").permitAll()
                 .antMatchers("/api/user/reissue").permitAll()
+                .antMatchers("/google/login/**").permitAll()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/accounts").permitAll()
+                .antMatchers("/auth/google/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",
