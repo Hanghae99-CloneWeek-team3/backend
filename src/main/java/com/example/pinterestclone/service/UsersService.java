@@ -96,7 +96,8 @@ public class UsersService {
         return ResponseDto.success(
                 //null
                 UsersResponseDto.builder()
-                        .userId(loginRequestDto.getUserId())
+                        .userName(users.getUserId())
+                        .uniqueName(users.getUniqueName())
                         .build()
         );
 
