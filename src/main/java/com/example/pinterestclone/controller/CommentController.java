@@ -82,7 +82,7 @@ public class CommentController {
         return ResponseDto.success(true);
     }
 
-    @PostMapping("/like/{commentId}")
+    @PostMapping("/comments/likes/{commentId}")
     public ResponseDto<?> addLike(@LoginUsers Users loginUsers,
                                           @PathVariable Long commentId) {
         boolean result = false;
