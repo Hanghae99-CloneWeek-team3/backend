@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsersResponseDto {
-    private String userId;
-    private String password;
+    private String userName;
+    private String uniqueName;
+    //private String password;
 }
