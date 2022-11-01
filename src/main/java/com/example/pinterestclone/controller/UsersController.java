@@ -22,25 +22,25 @@ public class UsersController {
     private final UsersService usersService;
 
     // 회원가입
-    @PostMapping(value = "/user/signup")
+    @PostMapping(value = "/users/signup")
     public ResponseDto<?> signup(@Valid @RequestBody UsersRequestDto usersRequestDto){
         return usersService.createMember(usersRequestDto);
     }
 
 
     // 로그인
-    @PostMapping(value = "/user/login")
+    @PostMapping(value = "/users/login")
     public ResponseDto<?> signin(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
         return usersService.signin(loginRequestDto, response);
     }
 
     // 로그아웃
-    @PostMapping(value = "/user/signout")
+    @PostMapping(value = "/users/signout")
     public ResponseDto<?> signout(HttpServletRequest request){
         return usersService.signout(request);
     }
 
-    @PostMapping(value = "/user/reissue")
+    @PostMapping(value = "/users/reissue")
     public ResponseDto<?> reissue(HttpServletRequest request, HttpServletResponse response) {
         return usersService.reissue(request, response);
     }

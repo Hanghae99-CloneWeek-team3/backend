@@ -54,7 +54,6 @@ public class PostService {
                 .content(requestDto.getContent())
                 .imageUrl(requestDto.getImageUrl())
                 .users(users)
-                .filesId(requestDto.getFilesId())
                 .build();
         postRepository.save(post);
 
