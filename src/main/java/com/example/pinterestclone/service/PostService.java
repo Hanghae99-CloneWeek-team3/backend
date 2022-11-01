@@ -1,6 +1,7 @@
 package com.example.pinterestclone.service;
 
 import com.example.pinterestclone.controller.handler.CustomError;
+
 import com.example.pinterestclone.controller.request.PostRequestDto;
 import com.example.pinterestclone.controller.response.FileResponseDto;
 import com.example.pinterestclone.controller.response.PostResponseDto;
@@ -13,12 +14,15 @@ import com.example.pinterestclone.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import java.util.Optional;
 
 @Service
@@ -26,6 +30,7 @@ import java.util.Optional;
 public class PostService {
 
     private final PostRepository postRepository;
+
 
     private final FileRepository fileRepository;
 
@@ -68,6 +73,7 @@ public class PostService {
                         .uniqueName(post.getUsers().getUniqueName()) //@아이디 느낌
                         .filePath(post.getImageUrl()) //게시글 사진
 //                        .comments(commentResponseDtoList) //댓글
+
                         .build()
         );
     }
@@ -184,14 +190,17 @@ public class PostService {
     @Transactional
     public Users validateUsers(HttpServletRequest request) {
         if (!tokenProvider.validateToken(request.getHeader("refresh_token"))) {
+
             return null;
         }
         return tokenProvider.getMemberFromAuthentication();
     }
+
 
     @Transactional(readOnly = true)
     public Post isPresentPost(Long postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
         return optionalPost.orElse(null);
     }
+
 }

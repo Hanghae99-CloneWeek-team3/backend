@@ -33,6 +33,7 @@ import java.net.URISyntaxException;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+
 public class PostController {
 
     private final PostService postService;
@@ -110,4 +111,5 @@ public class PostController {
     public ResponseDto<?> deletePost(@PathVariable Long postId, HttpServletRequest request) {
         return postService.deletePost(postId, request);
     }
+
 }
