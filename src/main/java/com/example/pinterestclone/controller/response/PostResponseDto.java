@@ -1,22 +1,24 @@
 package com.example.pinterestclone.controller.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostResponseDto {
-    private Long id;
+
+    private Long postId;
     private String title;
     private String content;
-    private String author;
-    private CommentListDto commentListDto;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+//    private String imageUrl;
+    private String userId; // 이메일
+    private String userName; // 닉네임?
+    private String uniqueName;
+//    private Data imageFile; //
+    private Data profileImage; // 프로필 사진
+    private String filePath;
+//    private List<CommentResponseDto> comments; //댓글
+
 }
