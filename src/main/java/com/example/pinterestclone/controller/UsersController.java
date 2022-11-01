@@ -29,7 +29,7 @@ public class UsersController {
 
 
     // 로그인
-    @PostMapping(value = "/user/signin")
+    @PostMapping(value = "/user/login")
     public ResponseDto<?> signin(@Valid @RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response){
         return usersService.signin(loginRequestDto, response);
     }
