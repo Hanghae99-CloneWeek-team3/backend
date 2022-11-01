@@ -1,5 +1,6 @@
 package com.example.pinterestclone.controller.response;
 
+
 import lombok.*;
 
 @Builder
@@ -7,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostResponseDto {
+
     private Long postId;
     private String title;
     private String content;
