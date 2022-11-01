@@ -28,9 +28,10 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String content;
 
-
     @Column(nullable = false)
     private String imageUrl;
+
+    private int filesId;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "post",
