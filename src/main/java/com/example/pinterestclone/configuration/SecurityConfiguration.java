@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -65,6 +66,10 @@ public class SecurityConfiguration {
                 .antMatchers("/api/users/signup").permitAll()
                 .antMatchers("/api/users/login").permitAll()
                 .antMatchers("/api/users/reissue").permitAll()
+                .antMatchers("/api/posts/image").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/posts").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/posts/{postId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/comments/{rootId}").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",

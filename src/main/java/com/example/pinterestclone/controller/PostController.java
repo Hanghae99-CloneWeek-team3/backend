@@ -6,6 +6,8 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.example.pinterestclone.controller.request.FileRequestDto;
+import com.example.pinterestclone.controller.request.PostPutRequestDto;
 import com.example.pinterestclone.controller.request.PostRequestDto;
 import com.example.pinterestclone.controller.response.ResponseDto;
 import com.example.pinterestclone.service.FileService;
@@ -42,7 +44,7 @@ public class PostController {
 
     //게시글 등록
     @PostMapping("/posts")
-    public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto,  HttpServletRequest request) {
         return postService.createPost(requestDto, request);
     }
 
@@ -101,7 +103,7 @@ public class PostController {
 
     //게시글 수정
     @PutMapping("/posts/{postId}")
-    public ResponseDto<?> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto,
+    public ResponseDto<?> updatePost(@PathVariable Long postId, @RequestBody PostPutRequestDto requestDto,
                                      HttpServletRequest request) {
         return postService.updatePost(postId, requestDto, request);
     }
@@ -110,6 +112,12 @@ public class PostController {
     @DeleteMapping("/posts/{postId}")
     public ResponseDto<?> deletePost(@PathVariable Long postId, HttpServletRequest request) {
         return postService.deletePost(postId, request);
+    }
+
+    // 특정 유저 게시글 조회
+    @GetMapping(value = "/{uniqueName}")
+    public ResponseDto<?> getUserPost(@PathVariable String uniqueName){
+        return postService.getUserPost(uniqueName);
     }
 
 }

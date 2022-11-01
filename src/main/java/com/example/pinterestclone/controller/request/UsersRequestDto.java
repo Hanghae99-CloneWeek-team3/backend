@@ -14,8 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 // 회원가입 관련
-public class
-UsersRequestDto {
+public class UsersRequestDto {
 
     // 이메일
     @NotBlank
@@ -27,7 +26,7 @@ UsersRequestDto {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$")
     private String password;
 
-    @NotBlank
-    private String passwordConfirm;
+
+    private int age;
 
 }

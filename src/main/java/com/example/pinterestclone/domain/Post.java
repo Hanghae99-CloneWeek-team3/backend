@@ -1,5 +1,6 @@
 package com.example.pinterestclone.domain;
 
+import com.example.pinterestclone.controller.request.PostPutRequestDto;
 import com.example.pinterestclone.controller.request.PostRequestDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,7 +33,8 @@ public class Post extends Timestamped{
    // @JsonManagedReference
     @OneToMany(mappedBy = "post",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private List<Comment> comments = new ArrayList<>();
 
     @JsonIgnore
@@ -45,10 +47,14 @@ public class Post extends Timestamped{
     @JoinColumn(name="users_id", nullable = false)
     private Users users;
 
-    public void update(PostRequestDto postRequestDto) {
-        this.title = postRequestDto.getTitle();
-        this.content = postRequestDto.getContent();
-        this.imageUrl = postRequestDto.getImageUrl();
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="file_id", nullable = true)
+    private Files files;
+
+
+    public void update(PostPutRequestDto postPutRequestDto) {
+        this.title = postPutRequestDto.getTitle();
+        this.content = postPutRequestDto.getContent();
     }
 
     public boolean validateMember(Users users) {

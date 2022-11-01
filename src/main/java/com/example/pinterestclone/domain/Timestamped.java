@@ -1,5 +1,6 @@
 package com.example.pinterestclone.domain;
 
+import com.example.pinterestclone.controller.request.PostPutRequestDto;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
