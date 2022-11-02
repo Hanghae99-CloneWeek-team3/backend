@@ -44,7 +44,7 @@ public class Users extends Timestamped{
 
 
     //  @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER,
+    @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "users",
             cascade = CascadeType.ALL,
             orphanRemoval = true

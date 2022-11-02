@@ -71,8 +71,9 @@ public class CommentController {
                     Stream<CommentResponseDto> result = paging.stream().limit(size);*/
                     return ResponseDto.success(result);
                 }
-            }
+    }
 
+    // ------------------------------------------------------------------------------------------------ 권한 필요
     @DeleteMapping("/comments/likes/{commentId}")
     public ResponseDto<?> cancelLike(@LoginUsers Users loginUsers,
                                              @PathVariable Long commentId) {
@@ -82,6 +83,7 @@ public class CommentController {
         return ResponseDto.success(true);
     }
 
+    // ------------------------------------------------------------------------------------------------ 권한 필요
     @PostMapping("/comments/likes/{commentId}")
     public ResponseDto<?> addLike(@LoginUsers Users loginUsers,
                                           @PathVariable Long commentId) {

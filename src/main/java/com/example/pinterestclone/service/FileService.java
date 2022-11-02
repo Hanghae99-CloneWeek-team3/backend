@@ -39,8 +39,8 @@ public class FileService {
                 .build();
         fileRepository.save(files);
         FileResponseDto fileResponseDto = FileResponseDto.builder()
-                .id(files.getId())
-                .url(files.getUrl())
+                .fileId(files.getId())
+                .imageUrl(files.getUrl())
                 .build();
 
         return ResponseDto.success(fileResponseDto);

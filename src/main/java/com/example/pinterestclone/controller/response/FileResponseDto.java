@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FileResponseDto {
-    private Long id;
-    private String url;
+    private Long fileId;
+    private String imageUrl;
 }
