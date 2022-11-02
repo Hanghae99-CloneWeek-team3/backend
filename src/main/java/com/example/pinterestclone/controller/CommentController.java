@@ -3,7 +3,7 @@ package com.example.pinterestclone.controller;
 import com.example.pinterestclone.configuration.LoginUsers;
 import com.example.pinterestclone.controller.request.CommentRequestDto;
 import com.example.pinterestclone.controller.request.CommentUpdateRequestDto;
-import com.example.pinterestclone.controller.response.CommentResponseDto;
+import com.example.pinterestclone.controller.response.ReCommentResponseDto;
 import com.example.pinterestclone.controller.response.ResponseDto;
 import com.example.pinterestclone.domain.Users;
 import com.example.pinterestclone.service.CommentSerivce;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -63,7 +62,7 @@ public class CommentController {
             return ResponseDto.success(commentSerivce.getParentComment(rootId, "post", size, page));
 
         }else {
-                CommentResponseDto result = commentSerivce.getReComment(rootId, "comment", size, page, commentId);
+                List<ReCommentResponseDto.ReComment> result = commentSerivce.getReCommentList(rootId,  size, page, commentId);
                /* if (page >= 1) {
                     Stream<CommentResponseDto> result = paging.stream().limit(size + 2 );
                     return ResponseDto.success(result);
@@ -71,6 +70,11 @@ public class CommentController {
                     Stream<CommentResponseDto> result = paging.stream().limit(size);*/
                     return ResponseDto.success(result);
                 }
+    }
+
+    @GetMapping(value = "/comments/find/{commentId}")
+    public ResponseDto<?> getOneComment(@PathVariable Long commentId) {
+        return ResponseDto.success(commentSerivce.getOneComment(commentId));
     }
 
     // ------------------------------------------------------------------------------------------------ 권한 필요

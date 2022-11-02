@@ -42,7 +42,7 @@ public class Comment extends Timestamped {
     private List<Likes> likes;
 
     @Column
-    private Boolean redHeart;
+    private String redHeart = "false";
 
     private Boolean isDeleted;
 
@@ -91,11 +91,11 @@ public class Comment extends Timestamped {
     }
 
     public void setRedHeart(Users users,  Long commentId){
-        this.redHeart = true;
+        this.redHeart = "true";
     }
 
     public void cancelRedHeart(Users users, Long commentId){
-        this.redHeart = false;
+        this.redHeart = "false";
     }
 
 
