@@ -27,12 +27,15 @@ public class CommentResponseDto extends Timestamped {
         }
         this.comments.get(index).addReComment(new ReComment(comment));
     }
+
+    private Pagination pagination;
+
     public void addPagination(int size, int totalCounts, int totalPages,
                               int currentPage, Integer nextPage, Boolean isLastPage) {
         this.pagination = new Pagination(size, totalCounts, totalPages,
                 currentPage, nextPage, isLastPage);
     }
-    private Pagination pagination;
+
     public int compareTo(CommentResponseDto o) {
         return o.getCreatedAt().compareTo(o.getCreatedAt());
     }
@@ -50,10 +53,8 @@ public class CommentResponseDto extends Timestamped {
         private String profileImage;
         private String content;
         private String redHeart;
-        private int likes;
-        //   private Long nestedCommentsCount;
-        private List<ReComment> reComments = new ArrayList<>();
-
+        private Integer likes;
+        private List<ReComment> reComment = new ArrayList<>();
         private Long reCommentsCount = 0L;
         public LocalDateTime createdAt;
         public LocalDateTime modifiedAt;
@@ -65,6 +66,7 @@ public class CommentResponseDto extends Timestamped {
             this.userId = comment.getUsers().getId();
             this.userName = comment.getUsers().getUserId();
             this.uniqueName = comment.getUsers().getUniqueName();
+            this.profileImage = comment.getUsers().getProfileImage();
             // userOrigin.getIntroduce());
             this.likes = comment.getLikes().size();
             this.redHeart = comment.getRedHeart();
@@ -75,9 +77,11 @@ public class CommentResponseDto extends Timestamped {
         }
 
         public void addReComment(ReComment reComment) {
-            this.reComments.add(reComment);
+            this.reComment.add(reComment);
             this.reCommentsCount += 1;
         }
+
+
 
         @Override
         public int compare(CommentResponse o1, CommentResponse o2) {
@@ -106,11 +110,19 @@ public class CommentResponseDto extends Timestamped {
         private String uniqueName;
         private String content;
         private String profileImage;
-        private int likes;
-        private String redHeart;
+        private Integer likes;
+        private String redHeart = "false";
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Boolean folded;
+
+
+
+        public String checkNull(String redHeart, String replace) {
+            replace = "false";
+            return (redHeart == null || redHeart.equals("")) ? replace : redHeart;
+        }
+
 
 
         public ReComment(Comment comment) {
@@ -124,13 +136,15 @@ public class CommentResponseDto extends Timestamped {
             this.profileImage = comment.getUsers().getProfileImage();
             // userOrigin.getIntroduce());
             this.likes = comment.getLikes().size();
-            this.redHeart = comment.getRedHeart();
+            this.redHeart = "false";
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt();
             this.modifiedAt = comment.getModifiedAt();
             this.parentId = comment.getRootId();
             //this.isMine = isMine;
         }
+
+
     }
 
     @Getter

@@ -92,8 +92,6 @@ public class CommentListDto {
             private String profileImage;
             private Integer likes;
             private String redHeart;
-            @JsonIgnore
-            private Boolean folded;
             private LocalDateTime createdAt;
             private LocalDateTime modifiedAt;
 
