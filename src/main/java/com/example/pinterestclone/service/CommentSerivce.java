@@ -6,6 +6,7 @@ import com.example.pinterestclone.controller.request.CommentRequestDto;
 import com.example.pinterestclone.controller.request.CommentUpdateRequestDto;
 import com.example.pinterestclone.controller.response.CommentListDto;
 import com.example.pinterestclone.controller.response.CommentResponseDto;
+import com.example.pinterestclone.controller.response.ReCommentResponseDto;
 import com.example.pinterestclone.controller.response.ResponseDto;
 import com.example.pinterestclone.domain.*;
 import com.example.pinterestclone.jwt.TokenProvider;
@@ -64,7 +65,8 @@ public class CommentSerivce {
 
             log.info("saveComment() >> 댓글 작성한 포스트 ID : {}", post.getId());
 
-            comment = new Comment(requestDto,post, users);
+
+            comment = new Comment(requestDto,post, users, "false");
 
             commentRepository.save(comment);
 
@@ -72,7 +74,9 @@ public class CommentSerivce {
             Comment rootComment = commentRepository.findById(requestDto.getRootId()).orElseThrow(
                     () -> new CustomException(CustomError.COMMENT_NOT_FOUND));
             Post post = rootComment.getPost();
-            comment = new Comment(requestDto,post, users);
+
+            comment = new Comment(requestDto,post, users, "false");
+
             commentRepository.save(comment);
         }
 
@@ -203,7 +207,7 @@ public class CommentSerivce {
     }
 
     //부모댓글만 가져오기
-    public Page<Comment> getParentComment (Long postId, String rootName, int size, int page){
+    public List<CommentResponseDto.CommentResponse> getParentComment (Long postId, String rootName, int size, int page){
         CommentResponseDto commentResponseDto = new CommentResponseDto();
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").ascending());
@@ -215,7 +219,54 @@ public class CommentSerivce {
             commentResponseDto.addComment(parentComment.get(i));
         }
 
-        return parentCommentPage;
+
+        int totalCounts = commentRepository.countByPostId(postId);
+        int totalPages = parentCommentPage.getTotalPages();
+        int totalCountsInThisPage = parentCommentPage.getNumberOfElements();
+        int currentPage = page;
+        Boolean isLastPage =  parentCommentPage.isLast();
+        Integer nextPage;
+
+            if (isLastPage){
+            nextPage = null;
+        }else{
+            nextPage = currentPage + 1;
+    }
+
+        commentResponseDto.addPagination(size, totalCountsInThisPage, totalPages, currentPage, nextPage, isLastPage);
+
+        return commentResponseDto.getComments();
+    }
+
+    public List<ReCommentResponseDto.ReCommentResponse> getReCommentList (Long postId, int size, int page, Long commentId) {
+        ReCommentResponseDto reCommentResponseDto = new ReCommentResponseDto();
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").ascending());
+
+        Page<Comment> reCommentList = commentRepository.findAllReCommentByPostIdAndRootNameLikeComment(postId, "comment", pageable);
+        List<Comment> parentComment = commentRepository.findAllByPostIdAndRootNameAndOrderByCreatedAt(postId, "post");
+        CommentResponseDto commentResponseDto = new CommentResponseDto();
+        int a = 0;
+        int b = size * (page + 1);
+        for (Comment eachParent : parentComment) {
+            commentResponseDto.addComment(eachParent);
+        }
+        List<CommentResponseDto.CommentResponse> parentComments = commentResponseDto.getComments();
+
+        for (Comment eachComment : reCommentList) {
+            Long itsParentId = eachComment.getRootId();
+            if(itsParentId == commentId){
+
+                for( CommentResponseDto.CommentResponse parents : parentComments){
+                    if (parents.getCommentId().equals(itsParentId)) {
+                        int index = commentResponseDto.getComments().indexOf(parents);
+                        reCommentResponseDto.addComment(index, eachComment);
+                    }
+                } a +=1;
+                if(a==b) break;
+            }
+        }
+        return reCommentResponseDto.getComments();
     }
 
     //대댓글 펼치기 기능
@@ -291,16 +342,17 @@ public class CommentSerivce {
         comment.cancelRedHeart(users, commentId);
         return true;
     }
-/*
+
 
     public Integer count(Long commentId, Users loginMember) {
+
         Comment comment = commentRepository.findById(commentId).orElseThrow();
 
         Integer commentLikesCount = likesRepository.countByComment(comment).orElse(0);
 
         return commentLikesCount;
     }
-*/
+
 
     //사용자가 이미 좋아요 한 게시물인지 체크
     private boolean isNotAlreadyLike(Users users, Comment comment) {

@@ -1,18 +1,11 @@
 package com.example.pinterestclone.domain;
 
-//import com.example.pinterestclone.controller.request.CommentRequestDto;
 import com.example.pinterestclone.controller.request.CommentRequestDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Builder
 @Getter
@@ -42,7 +35,7 @@ public class Comment extends Timestamped {
     private List<Likes> likes;
 
     @Column
-    private Boolean redHeart;
+    private String redHeart = "false";
 
     private Boolean isDeleted;
 
@@ -68,12 +61,14 @@ public class Comment extends Timestamped {
     @OneToMany(mappedBy = "parent")
     private List<Comment> childList = new ArrayList<>();
 */
-    public Comment(CommentRequestDto requestDto, Post post, Users users) {
+
+    public Comment(CommentRequestDto requestDto, Post post, Users users, String redHeart) {
         this.content = requestDto.getContents();
         this.rootId = requestDto.getRootId();
         this.rootName = requestDto.getRootName();
         this.post = post;
         this.users = users;
+        this.redHeart = redHeart;
     }
 
 
@@ -91,12 +86,10 @@ public class Comment extends Timestamped {
     }
 
     public void setRedHeart(Users users,  Long commentId){
-        this.redHeart = true;
+        this.redHeart = "true";
     }
 
-    public void cancelRedHeart(Users users, Long commentId){
-        this.redHeart = false;
-    }
+    public void cancelRedHeart(Users users, Long commentId){ this.redHeart = "false"; }
 
 
 }

@@ -2,9 +2,9 @@ package com.example.pinterestclone.controller.response;
 
 import com.example.pinterestclone.domain.Comment;
 import com.example.pinterestclone.domain.Timestamped;
-import com.example.pinterestclone.domain.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -27,32 +27,33 @@ public class CommentResponseDto extends Timestamped {
         }
         this.comments.get(index).addReComment(new ReComment(comment));
     }
-
-
+    public void addPagination(int size, int totalCounts, int totalPages,
+                              int currentPage, Integer nextPage, Boolean isLastPage) {
+        this.pagination = new Pagination(size, totalCounts, totalPages,
+                currentPage, nextPage, isLastPage);
+    }
+    private Pagination pagination;
     public int compareTo(CommentResponseDto o) {
         return o.getCreatedAt().compareTo(o.getCreatedAt());
     }
 
     @Getter
     public class CommentResponse  implements Comparator<CommentResponse> {
+        @JsonIgnore
         private Pagination pagination;
         private Long commentId;
         private Long postId;
-        @JsonIgnore
-        private Users userOrigin;
         private Long userId;
         private String userName;
         private String uniqueName;
+        @Nullable
         private String profileImage;
-
         private String content;
-        private Boolean redHeart;
-        private Integer likes;
+        private String redHeart;
+        private int likes;
         //   private Long nestedCommentsCount;
-
-
         private List<ReComment> reComments = new ArrayList<>();
-        @JsonIgnore
+
         private Long reCommentsCount = 0L;
         public LocalDateTime createdAt;
         public LocalDateTime modifiedAt;
@@ -61,11 +62,9 @@ public class CommentResponseDto extends Timestamped {
         public CommentResponse(Comment comment) {
             this.commentId = comment.getId();
             this.postId = comment.getPost().getId();
-            this.userOrigin = comment.getUsers();
-            this.userId = userOrigin.getId();
-            this.userName = userOrigin.getUserId();
-            this.uniqueName = userOrigin.getUniqueName();
-            this.profileImage = userOrigin.getProfileImage();
+            this.userId = comment.getUsers().getId();
+            this.userName = comment.getUsers().getUserId();
+            this.uniqueName = comment.getUsers().getUniqueName();
             // userOrigin.getIntroduce());
             this.likes = comment.getLikes().size();
             this.redHeart = comment.getRedHeart();
@@ -102,15 +101,13 @@ public class CommentResponseDto extends Timestamped {
         private Long parentId;
         private Long postId;
         private String parentName;
-        @JsonIgnore
-        private Users userOrigin;
         private Long userId;
         private String userName;
         private String uniqueName;
         private String content;
         private String profileImage;
-        private Integer likes;
-        private Boolean redHeart;
+        private int likes;
+        private String redHeart;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Boolean folded;
@@ -121,11 +118,10 @@ public class CommentResponseDto extends Timestamped {
             this.parentId = comment.getRootId();
             this.postId = comment.getPost().getId();
             this.parentName = comment.getParentName();
-            this.userOrigin = comment.getUsers();
-            this.userId = userOrigin.getId();
-            this.userName = userOrigin.getUserId();
-            this.uniqueName = userOrigin.getUniqueName();
-            this.profileImage = userOrigin.getProfileImage();
+            this.userId = comment.getUsers().getId();
+            this.userName = comment.getUsers().getUserId();
+            this.uniqueName = comment.getUsers().getUniqueName();
+            this.profileImage = comment.getUsers().getProfileImage();
             // userOrigin.getIntroduce());
             this.likes = comment.getLikes().size();
             this.redHeart = comment.getRedHeart();
