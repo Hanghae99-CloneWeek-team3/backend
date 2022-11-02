@@ -16,8 +16,8 @@ public class PostResponseDto {
     private String userId; // 이메일
     private String userName; // 닉네임?
     private String uniqueName;
-//    private Data imageFile; //
-    private Data profileImage; // 프로필 사진
+    private String imageFile; //
+//    private String profileImage; // 프로필 사진
     private String filePath;
 //    private List<CommentResponseDto> comments; //댓글
 

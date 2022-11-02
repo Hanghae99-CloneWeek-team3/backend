@@ -64,7 +64,7 @@ public class CommentSerivce {
 
             log.info("saveComment() >> 댓글 작성한 포스트 ID : {}", post.getId());
 
-            comment = new Comment(requestDto,post);
+            comment = new Comment(requestDto,post, users);
 
             commentRepository.save(comment);
 
@@ -72,7 +72,7 @@ public class CommentSerivce {
             Comment rootComment = commentRepository.findById(requestDto.getRootId()).orElseThrow(
                     () -> new CustomException(CustomError.COMMENT_NOT_FOUND));
             Post post = rootComment.getPost();
-            comment = new Comment(requestDto,post);
+            comment = new Comment(requestDto,post, users);
             commentRepository.save(comment);
         }
 
