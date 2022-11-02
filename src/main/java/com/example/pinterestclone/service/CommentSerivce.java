@@ -267,6 +267,7 @@ public class CommentSerivce {
                 for( CommentResponseDto.CommentResponse parents : parentComments){
                     if (parents.getCommentId().equals(itsParentId)) {
                         int index = commentResponseDto.getComments().indexOf(parents);
+                        eachComment.setParentName(parents);
                         reCommentResponseDto.addComment(index, eachComment);
                     }
                 } a +=1;

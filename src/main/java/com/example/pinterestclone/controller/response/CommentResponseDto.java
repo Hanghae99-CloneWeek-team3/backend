@@ -83,6 +83,8 @@ public class CommentResponseDto extends Timestamped {
             this.reCommentsCount += 1;
         }
 
+
+
         @Override
         public int compare(CommentResponse o1, CommentResponse o2) {
             Long first = Long.parseLong(String.valueOf(o1.createdAt));
@@ -113,10 +115,18 @@ public class CommentResponseDto extends Timestamped {
         private String content;
         private String profileImage;
         private Integer likes;
-        private String redHeart;
+        private String redHeart = "false";
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
         private Boolean folded;
+
+
+
+        public String checkNull(String redHeart, String replace) {
+            replace = "false";
+            return (redHeart == null || redHeart.equals("")) ? replace : redHeart;
+        }
+
 
 
         public ReComment(Comment comment) {
@@ -130,13 +140,15 @@ public class CommentResponseDto extends Timestamped {
             this.profileImage = comment.getUsers().getProfileImage();
             // userOrigin.getIntroduce());
             this.likes = comment.getLikes().size();
-            this.redHeart = comment.getRedHeart();
+            this.redHeart = "false";
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt();
             this.modifiedAt = comment.getModifiedAt();
             this.parentId = comment.getRootId();
             //this.isMine = isMine;
         }
+
+
     }
 
     @Getter
