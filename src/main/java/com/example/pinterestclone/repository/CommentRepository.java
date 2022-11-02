@@ -11,13 +11,15 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-   @Query(" SELECT c FROM Comment c WHERE c.post.id = :postId and c.rootName = :rootName ")
-   Page<Comment> findAllByPostIdAndRootName( @Param("postId") Long postId,@Param("rootName") String rootName, Pageable pageable);
+    @Query(" SELECT c FROM Comment c WHERE c.post.id = :postId and c.rootName = :rootName ")
+    Page<Comment> findAllByPostIdAndRootName( @Param("postId") Long postId,@Param("rootName") String rootName, Pageable pageable);
 
     @Query(" SELECT c FROM Comment c WHERE c.post.id = :postId and c.rootName = :rootName ")
     List<Comment> findAllByPostIdAndRootNameAndOrderByCreatedAt( @Param("postId") Long postId,@Param("rootName") String rootName);
     @Query("SELECT c FROM Comment c WHERE c.post.id = :postId and c.rootName = :keyword ")
     List<Comment> findAllReCommentByPostIdAndRootNameLikeComment(@Param("postId") Long postId, @Param("keyword") String keyword);
+    @Query("SELECT c FROM Comment c WHERE c.post.id = :postId and c.rootName = :keyword ")
+    Page<Comment> findAllReCommentByPostIdAndRootNameLikeComment(@Param("postId") Long postId, @Param("keyword") String keyword, Pageable pageable);
 
    /* @Query(value = "SELECT c FROM Comment c WHERE c.rootName = 'comment' and c.rootId = :rootId and c.rootName Like % :keyword % ",
     countQuery = "SELECT COUNT(c) FROM Comment c WHERE c.rootName = 'comment' and c.rootId = :rootId and c.rootName Like % :keyword %",

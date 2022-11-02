@@ -39,15 +39,13 @@ public class CommentListDto {
         private Pagination pagination;
         private Long commentId;
         private Long postId;
-        @JsonIgnore
-        private Users userOrigin;
         private Long userId;
         private String userName;
         private String uniqueName;
         private String profileImage;
 
         private String content;
-        private Boolean redHeart;
+        private String redHeart;
         private Integer likes;
         //   private Long nestedCommentsCount;
         private List<ReComment> reComments = new ArrayList<>();
@@ -59,11 +57,10 @@ public class CommentListDto {
         public ResponseComment(Comment comment) {
             this.commentId = comment.getId();
             this.postId = comment.getPost().getId();
-            this.userOrigin = comment.getUsers();
-            this.userId = userOrigin.getId();
-            this.userName = userOrigin.getUserId();
-            this.uniqueName = userOrigin.getUniqueName();
-            this.profileImage = userOrigin.getProfileImage();
+            this.userId = comment.getUsers().getId();
+            this.userName = comment.getUsers().getUserId();
+            this.uniqueName = comment.getUsers().getUniqueName();
+            this.profileImage = comment.getUsers().getProfileImage();
             // userOrigin.getIntroduce());
             this.likes = comment.getLikes().size();
             this.redHeart = comment.getRedHeart();
@@ -87,15 +84,14 @@ public class CommentListDto {
             private Long parentId;
             private Long postId;
             private String parentName;
-            @JsonIgnore
-            private Users userOrigin;
+
             private Long userId;
             private String userName;
             private String uniqueName;
             private String content;
             private String profileImage;
             private Integer likes;
-            private boolean redHeart;
+            private String redHeart;
             @JsonIgnore
             private Boolean folded;
             private LocalDateTime createdAt;
@@ -113,11 +109,10 @@ public class CommentListDto {
                 this.parentId = comment.getRootId();
                 this.postId = comment.getPost().getId();
                 this.parentName = comment.getParentName();
-                this.userOrigin = comment.getUsers();
-                this.userId = userOrigin.getId();
-                this.userName = userOrigin.getUserId();
-                this.uniqueName = userOrigin.getUniqueName();
-                this.profileImage = userOrigin.getProfileImage();
+                this.userId = comment.getUsers().getId();
+                this.userName = comment.getUsers().getUserId();
+                this.uniqueName = comment.getUsers().getUniqueName();
+                this.profileImage = comment.getUsers().getProfileImage();
                 // userOrigin.getIntroduce());
                 this.likes = comment.getLikes().size();
                 this.redHeart = comment.getRedHeart();
