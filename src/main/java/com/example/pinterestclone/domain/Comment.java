@@ -68,12 +68,13 @@ public class Comment extends Timestamped {
     @OneToMany(mappedBy = "parent")
     private List<Comment> childList = new ArrayList<>();
 */
-    public Comment(CommentRequestDto requestDto, Post post, Users users) {
+    public Comment(CommentRequestDto requestDto, Post post, Users users, String redHeart) {
         this.content = requestDto.getContents();
         this.rootId = requestDto.getRootId();
         this.rootName = requestDto.getRootName();
         this.post = post;
         this.users = users;
+        this.redHeart = "false";
     }
 
 

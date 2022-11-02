@@ -55,7 +55,7 @@ public class CommentResponseDto extends Timestamped {
         private Integer likes;
         //   private Long nestedCommentsCount;
 
-        private List<ReComment> reComments = new ArrayList<>();
+        private List<ReComment> reComment = new ArrayList<>();
 
         private Long reCommentsCount = 0L;
         public LocalDateTime createdAt;
@@ -79,7 +79,7 @@ public class CommentResponseDto extends Timestamped {
         }
 
         public void addReComment(ReComment reComment) {
-            this.reComments.add(reComment);
+            this.reComment.add(reComment);
             this.reCommentsCount += 1;
         }
 
