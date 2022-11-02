@@ -84,8 +84,7 @@ public class CommentListDto {
             private Long parentId;
             private Long postId;
             private String parentName;
-            @JsonIgnore
-            private Users userOrigin;
+
             private Long userId;
             private String userName;
             private String uniqueName;

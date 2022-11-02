@@ -63,6 +63,7 @@ public class PostService {
                 .imageUrl(requestDto.getImageUrl())
                 .users(users)
                 .files(files)
+
                 .build();
         postRepository.save(post);
 

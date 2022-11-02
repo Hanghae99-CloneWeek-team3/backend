@@ -65,6 +65,7 @@ public class CommentSerivce {
 
             log.info("saveComment() >> 댓글 작성한 포스트 ID : {}", post.getId());
 
+
             comment = new Comment(requestDto,post, users, "false");
 
             commentRepository.save(comment);
@@ -73,7 +74,9 @@ public class CommentSerivce {
             Comment rootComment = commentRepository.findById(requestDto.getRootId()).orElseThrow(
                     () -> new CustomException(CustomError.COMMENT_NOT_FOUND));
             Post post = rootComment.getPost();
+
             comment = new Comment(requestDto,post, users, "false");
+
             commentRepository.save(comment);
         }
 
@@ -245,6 +248,7 @@ public class CommentSerivce {
         return commentResponseDto.getComments();
     }
 
+
     public List<ReCommentResponseDto.ReComment> getReCommentList (Long postId, int size, int page, Long commentId) {
         ReCommentResponseDto reCommentResponseDto = new ReCommentResponseDto();
 
@@ -267,7 +271,9 @@ public class CommentSerivce {
                 for( CommentResponseDto.CommentResponse parents : parentComments){
                     if (parents.getCommentId().equals(itsParentId)) {
                         int index = commentResponseDto.getComments().indexOf(parents);
+
                         eachComment.setParentName(parents);
+
                         reCommentResponseDto.addComment(index, eachComment);
                     }
                 } a +=1;
@@ -350,7 +356,7 @@ public class CommentSerivce {
         comment.cancelRedHeart(users, commentId);
         return true;
     }
-/*
+
 
     public Integer count(Long commentId, Users loginMember) {
 
@@ -360,7 +366,7 @@ public class CommentSerivce {
 
         return commentLikesCount;
     }
-*/
+
 
     //사용자가 이미 좋아요 한 게시물인지 체크
     private boolean isNotAlreadyLike(Users users, Comment comment) {

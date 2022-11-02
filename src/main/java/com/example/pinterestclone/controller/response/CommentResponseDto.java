@@ -2,9 +2,9 @@ package com.example.pinterestclone.controller.response;
 
 import com.example.pinterestclone.domain.Comment;
 import com.example.pinterestclone.domain.Timestamped;
-import com.example.pinterestclone.domain.Users;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,21 +42,19 @@ public class CommentResponseDto extends Timestamped {
 
     @Getter
     public class CommentResponse  implements Comparator<CommentResponse> {
+        @JsonIgnore
         private Pagination pagination;
         private Long commentId;
         private Long postId;
         private Long userId;
         private String userName;
         private String uniqueName;
+        @Nullable
         private String profileImage;
-
         private String content;
         private String redHeart;
         private Integer likes;
-        //   private Long nestedCommentsCount;
-
         private List<ReComment> reComment = new ArrayList<>();
-
         private Long reCommentsCount = 0L;
         public LocalDateTime createdAt;
         public LocalDateTime modifiedAt;
@@ -107,8 +105,6 @@ public class CommentResponseDto extends Timestamped {
         private Long parentId;
         private Long postId;
         private String parentName;
-        @JsonIgnore
-        private Users userOrigin;
         private Long userId;
         private String userName;
         private String uniqueName;

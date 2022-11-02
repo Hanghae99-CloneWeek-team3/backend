@@ -40,6 +40,8 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.331'
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.6.RELEASE', ext: 'pom'
 
+    implementation 'org.json:json:20220320'
+
 }
 
 tasks.named('test') {

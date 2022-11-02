@@ -66,6 +66,7 @@ public class SecurityConfiguration {
                 .antMatchers("/api/users/signup").permitAll()
                 .antMatchers("/api/users/login").permitAll()
                 .antMatchers("/api/users/reissue").permitAll()
+
                 .antMatchers("/api/posts/image").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/posts").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/posts/{postId}").permitAll()

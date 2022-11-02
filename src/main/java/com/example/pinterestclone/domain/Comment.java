@@ -1,6 +1,5 @@
 package com.example.pinterestclone.domain;
 
-//import com.example.pinterestclone.controller.request.CommentRequestDto;
 
 import com.example.pinterestclone.controller.request.CommentRequestDto;
 import com.example.pinterestclone.controller.response.CommentResponseDto;
@@ -64,6 +63,7 @@ public class Comment extends Timestamped {
     @OneToMany(mappedBy = "parent")
     private List<Comment> childList = new ArrayList<>();
 */
+
     public Comment(CommentRequestDto requestDto, Post post, Users users, String redHeart) {
         this.content = requestDto.getContents();
         this.rootId = requestDto.getRootId();
@@ -71,6 +71,7 @@ public class Comment extends Timestamped {
         this.post = post;
         this.users = users;
         this.redHeart = "false";
+
     }
 
 
@@ -98,6 +99,7 @@ public class Comment extends Timestamped {
     public void setParentName(CommentResponseDto.CommentResponse comment){
         this.parentName = comment.getUserName();
     }
+
 
 
 }
