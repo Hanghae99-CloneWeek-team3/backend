@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UsersResponseDto {
-    private String userName;
-    private String uniqueName;
-    //private String password;
+public class FileResponseDto {
+    private Long fileId;
+    private String imageUrl;
 }

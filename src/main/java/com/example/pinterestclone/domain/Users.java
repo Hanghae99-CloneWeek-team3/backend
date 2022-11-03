@@ -1,7 +1,6 @@
 package com.example.pinterestclone.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +12,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @Builder
 @Getter
@@ -40,7 +38,12 @@ public class Users extends Timestamped{
     @JsonIgnore
     private String password;
 
-    @JsonManagedReference
+    private String profileImage;
+
+    private Boolean isDeleted = false;
+
+
+    //  @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "users",
             cascade = CascadeType.ALL,
@@ -48,7 +51,7 @@ public class Users extends Timestamped{
     )
     private List<Post> posts = new ArrayList<>();
 
-    @JsonManagedReference
+  //  @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "users",
             cascade = CascadeType.ALL,

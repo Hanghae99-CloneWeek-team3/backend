@@ -63,9 +63,15 @@ public class SecurityConfiguration {
 //                .antMatchers("/api/post/p").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/comments/{postId}").permitAll()
 //                .antMatchers("/api/comment/*").permitAll()
-                .antMatchers("/api/user/signup").permitAll()
-                .antMatchers("/api/user/signin").permitAll()
-                .antMatchers("/api/user/reissue").permitAll()
+                .antMatchers("/api/users/signup").permitAll()
+                .antMatchers("/api/users/login").permitAll()
+                .antMatchers("/api/users/reissue").permitAll()
+
+                .antMatchers("/api/posts/image").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/posts").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/posts/{postId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/comments/{rootId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/comments/find/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",

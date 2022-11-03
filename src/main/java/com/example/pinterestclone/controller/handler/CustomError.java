@@ -28,9 +28,11 @@ public enum CustomError {
     ALREADY_SAVED_LOGINNAME(409, "중복된 아이디입니다."),
     ALERADY_SAVED_NICKNAME(409,"중복된 닉네임입니다."),
 
+
     //500 INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(500, "서버 에러입니다. 고객센터에 문의해주세요"),
-    BIND_Fails(500,"서버 에러입니다. 고객센터에 문의해주세요");
+    BIND_Fails(500,"서버 에러입니다. 고객센터에 문의해주세요"),
+    CONVERT_NESTED_STRUCTURE(500, "댓글 변환작업 실패");
 
     private final int status;
     private final String message;

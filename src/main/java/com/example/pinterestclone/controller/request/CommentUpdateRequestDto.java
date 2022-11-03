@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostRequestDto {
-    private String title;
-    private String content;
-    private String imageUrl;
-    private Long fileId;
+public class CommentUpdateRequestDto {
+
+    private String contents;
 }

@@ -1,17 +1,16 @@
 package com.example.pinterestclone.domain;
 
+import com.example.pinterestclone.controller.request.PostPutRequestDto;
 import com.example.pinterestclone.controller.request.PostRequestDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Setter
 @Builder
 @Getter
 @NoArgsConstructor
@@ -28,27 +27,35 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String content;
 
-
     @Column(nullable = false)
     private String imageUrl;
 
-    @JsonManagedReference
+   // @JsonManagedReference
     @OneToMany(mappedBy = "post",
             cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    private final List<Comment> comments = new ArrayList<>();
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonIgnore
+    private Boolean reCommentFolded = true;
+
+    private Integer commentCnt;
+
+   // @JsonBackReference
     @ManyToOne
     @JoinColumn(name="users_id", nullable = false)
     private Users users;
 
-    public void update(PostRequestDto postRequestDto) {
-        this.title = postRequestDto.getTitle();
-        this.content = postRequestDto.getContent();
-        this.imageUrl = postRequestDto.getImageUrl();
-    }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="file_id", nullable = true)
+    private Files files;
 
+
+    public void update(PostPutRequestDto postPutRequestDto) {
+        this.title = postPutRequestDto.getTitle();
+        this.content = postPutRequestDto.getContent();
+    }
 
     public boolean validateMember(Users users) {
         return !this.users.equals(users);
