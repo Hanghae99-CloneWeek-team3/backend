@@ -89,18 +89,23 @@ public class CommentSerivce {
             throw new CustomException(CustomError.MEMBER_NOT_FOUND);
         }
 
-
         Users users = validateUsers(request);
-        if(null == users) {
-            throw new CustomException(CustomError.INVALID_MEMBER);
+        if (null == users) {
+            return ResponseDto.fail(CustomError.WRITER_NOT_MATCHED.name(), //작성자가 아닙니다
+                    CustomError.WRITER_NOT_MATCHED.getMessage());
         }
-        //수정하려는 댓글 id가 존재하는지
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new CustomException(CustomError.COMMENT_NOT_FOUND));
-        // 댓글 작성자가 맞는지 확인
-        if(comment.validateMember(users)) {
-            throw new CustomException(CustomError.WRITER_NOT_MATCHED);
+
+        Comment comment = isPresentComment(commentId);
+        if (null == comment) {
+            return ResponseDto.fail(CustomError.COMMENT_NOT_FOUND.name(), //게시글을 찾을 수 없습니다
+                    CustomError.COMMENT_NOT_FOUND.getMessage());
         }
+
+        if (comment.validateMember(users)) {
+            return ResponseDto.fail(CustomError.WRITER_NOT_MATCHED.name(), //작성자가 아닙니다
+                    CustomError.WRITER_NOT_MATCHED.getMessage());
+        }
+
 
         comment.update(requestDto.getContents());
 
@@ -118,13 +123,18 @@ public class CommentSerivce {
         if(null == users) {
             throw new CustomException(CustomError.INVALID_MEMBER);
         }
-        //수정하려는 댓글 id가 존재하는지
-        Comment comment = commentRepository.findById(commentId).orElseThrow(
-                () -> new CustomException(CustomError.COMMENT_NOT_FOUND));
-        // 댓글 작성자가 맞는지 확인
-        if(comment.validateMember(users)) {
-            throw new CustomException(CustomError.WRITER_NOT_MATCHED);
+
+        Comment comment = isPresentComment(commentId);
+        if (null == comment) {
+            return ResponseDto.fail(CustomError.COMMENT_NOT_FOUND.name(), //게시글을 찾을 수 없습니다
+                    CustomError.COMMENT_NOT_FOUND.getMessage());
         }
+
+        if (comment.validateMember(users)) {
+            return ResponseDto.fail(CustomError.WRITER_NOT_MATCHED.name(), //작성자가 아닙니다
+                    CustomError.WRITER_NOT_MATCHED.getMessage());
+        }
+
        /* //부모댓글이면 자식댓글도 삭제
         if (comment.getRootName().equals("interview")){
             List<Comment> childCommentList = commentRepository.findByRootIdAndRootName(comment.getId(), "comment");
@@ -238,7 +248,8 @@ public class CommentSerivce {
         return commentResponseDto.getComments();
     }
 
-    public List<ReCommentResponseDto.ReCommentResponse> getReCommentList (Long postId, int size, int page, Long commentId) {
+
+    public List<ReCommentResponseDto.ReComment> getReCommentList (Long postId, int size, int page, Long commentId) {
         ReCommentResponseDto reCommentResponseDto = new ReCommentResponseDto();
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").ascending());
@@ -260,6 +271,9 @@ public class CommentSerivce {
                 for( CommentResponseDto.CommentResponse parents : parentComments){
                     if (parents.getCommentId().equals(itsParentId)) {
                         int index = commentResponseDto.getComments().indexOf(parents);
+
+                        eachComment.setParentName(parents);
+
                         reCommentResponseDto.addComment(index, eachComment);
                     }
                 } a +=1;
@@ -357,6 +371,22 @@ public class CommentSerivce {
     //사용자가 이미 좋아요 한 게시물인지 체크
     private boolean isNotAlreadyLike(Users users, Comment comment) {
         return likesRepository.findByUsersAndComment(users, comment).isEmpty();
+    }
+
+
+    public List<CommentResponseDto.CommentResponse> getOneComment (Long id) {
+
+        Comment oneComment = commentRepository.findByCommentId(id);
+        CommentResponseDto commentResponseDto = new CommentResponseDto();
+        commentResponseDto.addComment(oneComment);
+
+        return commentResponseDto.getComments();
+    }
+
+    @Transactional
+    public Comment isPresentComment(Long commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        return optionalComment.orElse(null);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.example.pinterestclone.repository;
 
 import com.example.pinterestclone.domain.Comment;
-import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,6 +26,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     List<Comment> findRecomment(@Param("rootId") Long rootId, @Param("keyword") String keyword);*/
     int countByPostId(Long RootId);
 
+    @Query("SELECT c FROM Comment c WHERE c.id = :id ")
+    Comment findByCommentId(@Param("id") Long id);
     //rootName 컬럼에서 키워드가 포함된 것을 찾음(findBy(컬럼)Containing)
 
     //Param JQPL Native
@@ -39,4 +40,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             countQuery = "SELECT COUNT(*) FROM Comment AS c WHERE c.root_name = 'comment' and c.root_id = :rootId and c.root_name Like :keyword ORDER BY c.created_at asc LIMIT :size, :page ",
     nativeQuery = true)
     List<Comment> findAllByRootNameAndRootIdOrderByCreatedAtAsc(@Param("rootId") Long rootId, @Param("keyword") String keyword, @Param("size") int size, @Param("page") int page);
+
 }

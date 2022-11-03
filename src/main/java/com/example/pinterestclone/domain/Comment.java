@@ -1,6 +1,8 @@
 package com.example.pinterestclone.domain;
 
+
 import com.example.pinterestclone.controller.request.CommentRequestDto;
+import com.example.pinterestclone.controller.response.CommentResponseDto;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
@@ -68,7 +70,8 @@ public class Comment extends Timestamped {
         this.rootName = requestDto.getRootName();
         this.post = post;
         this.users = users;
-        this.redHeart = redHeart;
+        this.redHeart = "false";
+
     }
 
 
@@ -89,7 +92,14 @@ public class Comment extends Timestamped {
         this.redHeart = "true";
     }
 
-    public void cancelRedHeart(Users users, Long commentId){ this.redHeart = "false"; }
+    public void cancelRedHeart(Users users, Long commentId){
+        this.redHeart = "false";
+    }
+
+    public void setParentName(CommentResponseDto.CommentResponse comment){
+        this.parentName = comment.getUserName();
+    }
+
 
 
 }

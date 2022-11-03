@@ -71,6 +71,7 @@ public class SecurityConfiguration {
                 .antMatchers(HttpMethod.GET,"/api/posts").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/posts/{postId}").permitAll()
                 .antMatchers(HttpMethod.GET,"/api/comments/{rootId}").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/comments/find/**").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",
